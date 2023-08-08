@@ -1,1 +1,2 @@
 # EstruturaDeDados
+Implementações em C++!
