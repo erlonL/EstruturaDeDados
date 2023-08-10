@@ -173,7 +173,7 @@ public:
         int dado = -1; int cont = 1;
 
         atual = cabeca;
-        while((cont < pos) && (atual != NULL)){
+        while((cont < pos+1) && (atual != NULL)){
             antecessor = atual;
             atual = atual->get_prox();
             cont++;
@@ -215,12 +215,29 @@ int main(void){
     // d)
     cout << lista.elemento(4) << endl;
     int num, pos;
+    cout << "\n//Modifica valor em uma posição//" << endl;
     cout << "Digite a posição: ";
     cin >> pos;
     cout << "Digite um inteiro: ";
     cin >> num;
-    cout << (lista.modifica(pos, num) ? (to_string(num) + " Modificado com sucesso!") : "Erro!") << endl;
+    cout << (lista.modifica(pos, num) ? ("posição " + to_string(pos) + " modificado para " + to_string(num) + " com sucesso!") : "Erro!") << endl;
 
+    // e)
+    cout << "\n//Insere um elemento//" << endl;
+    cout << "Digite a posição: ";
+    cin >> pos;
+    cout << "Digite um inteiro: ";
+    cin >> num;
+    cout << (lista.insere(pos, num) ? ("valor " + to_string(num) + " na posição " + to_string(pos) + " inserido com sucesso!") : "Erro!") << endl;
+
+    // f)
+    cout << "\n//Remove um elemento//" << endl;
+    cout << "Digite a posição: ";
+    cin >> pos;
+    cout << (lista.remove(pos) != -1 ? ("valor na posição " + to_string(pos) + " removido com sucesso!") : "Erro!") << endl;
+
+    // g)
+    cout << "\n//Todos os elementos da lista//" << endl;
     lista.print();
     
     
