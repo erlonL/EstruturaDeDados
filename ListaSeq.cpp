@@ -2,6 +2,12 @@
 #include <chrono>
 #include <thread>
 
+#define TAM_MAX 100
+#define QTD_ELM 10
+
+using namespace std;
+
+
 class ListaSeq {
     int* dados;
     int tamAtual;
@@ -9,7 +15,7 @@ class ListaSeq {
 public:
     // a) (Construtores)
     ListaSeq(){
-        tamMax = 100;
+        tamMax = TAM_MAX;
         tamAtual = 0;
         dados = new int[tamMax];
     }
@@ -32,7 +38,7 @@ public:
         else return false;
     }
     // c)
-    int tamanho(){
+    int get_tam(){
         return tamAtual;
     }
     // d)
@@ -43,7 +49,7 @@ public:
         dado = dados[pos-1];
         return dado;
     }
-    bool modify_element(int pos, int dado){
+    bool modifica(int pos, int dado){
         if((pos > tamAtual) || (pos <= 0)){
             std::cout << "Erro! Digite uma posição válida!" << std::endl;
             return false;
@@ -53,7 +59,7 @@ public:
         }
     }
     // e) (insere um elemento até a última posição+1 na lista)
-    bool set_element(int pos, int element){
+    bool insere(int pos, int element){
         if(cheia() || (pos > tamAtual+1) || (pos<=0))
             return false;
 
@@ -73,7 +79,7 @@ public:
         return true;
     }
     // f)
-    int remove_element(int pos){
+    int remove(int pos){
         int dado;
         if ((pos > tamAtual) || (pos < 1))
             return -1;
@@ -86,7 +92,7 @@ public:
         return dado;
     }
     // g)
-    void print_elements(){
+    void print(){
         for(int i = 0; i < tamAtual; i++){
             std::cout << dados[i] << " ";
         }
@@ -107,54 +113,59 @@ public:
 };
 
 int main(){
-    ListaSeq lista1(10);
-    std::cout << "A lista está vazia?\n>> "<< (lista1.vazia() ? "Sim" : "Não") << std::endl;
-    std::cout << std::endl;
+    // a)
+    cout << "Inicializando Lista Sequencial... \n" << endl;
+    ListaSeq lista1;
 
-    for(int i = 0; i < lista1.get_max_size(); i++){
-        lista1.append_element(i+1);
+    // b)
+    cout << (lista1.vazia() ? "Lista está vazia" : "Lista não está vazia") << endl;
+
+    cout << "Preenchendo a lista com " + to_string(QTD_ELM) + " elementos..." << endl;
+
+    int random_list_element;
+    for(int i = 0; i < QTD_ELM; i++){
+        random_list_element = rand() % 100 + 1;
+        lista1.append_element(random_list_element);
     }
-
-    std::cout << "Lista Padrão: " << std::endl;
-    lista1.print_elements();
-    std::cout << std::endl;
-
-    lista1.remove_element(lista1.get_size()); // Remove o último elemento
-
-
-    lista1.set_element(5, 823); // adiciona 823 na posição 5
-    std::cout << "Append 823 in pos 5: " << std::endl;
-    lista1.print_elements();
-    std::cout << std::endl;
-
-    std::cout << "A lista está vazia?\n>> "<< (lista1.vazia() ? "Sim" : "Não") << std::endl;
-    std::cout << std::endl;
-
-    lista1.remove_element(5); // remove 823
-
-    std::cout << "Remove 823 element (pos 5) " << std::endl;
-    lista1.print_elements();
-    std::cout << std::endl;
-
-    lista1.modify_element(5, 0);
-    std::cout << "Modify pos 5 element to 0 " << std::endl;
-    lista1.print_elements();
-    std::cout << std::endl;
-
-    ListaSeq lista2 = ListaSeq(10);
-
-    // Tentando adicionar mais elementos que a lista comporta
-    std::cout << "Tentando preencher a Lista com mais elementos do que ela comporta " 
-    << "(tMax = " << lista2.get_max_size() << ")" << std::endl;
-
-    for(int i = 0; i < lista2.get_max_size() + 10; i++){
-        std::cout << i+1 << ": "; 
-        std::cout << (lista2.append_element(i+1) ? std::to_string(lista2.get_element(i+1)) : "Erro! Lista cheia!") << std::endl;
-    }
-
-
-    lista2.print_elements();
     
+    // c)
+    cout << "Tamanho da lista atual: " << (lista1.get_tam()) << endl;
 
+    // d)
+    cout << endl;
+    cout << "//Elemento em uma posição aleatória//" << endl;
+    int random_int = rand() % QTD_ELM + 1;
 
+    cout << "Elemento na posição " + to_string(random_int) + ": "<< lista1.get_element(random_int) << endl;
+
+    cout << "Lista completa:\n" << endl;
+    lista1.print();
+
+    int num, pos;
+    cout << "\n//Modifica valor em uma posição válida//" << endl;
+    cout << "Digite a posição: ";
+    cin >> pos;
+    cout << "Digite um inteiro: ";
+    cin >> num;
+    cout << (lista1.modifica(pos, num) ? "Valor " + to_string(num) + " modificado na posição " + to_string(pos) + " com sucesso!" : "Erro! Digite uma posição válida!") << endl;
+
+    // e)
+    cout << "\n//Insere um elemento em uma posição válida//" << endl;
+    cout << "Digite a posição: ";
+    cin >> pos;
+    cout << "Digite um inteiro: ";
+    cin >> num;
+    cout << (lista1.insere(pos, num) ? ("Valor " + to_string(num) + " inserido na posição " + to_string(pos) + " com sucesso!") : "Erro! Digite uma posição válida!") << endl;
+
+    // f)
+    cout << "\n//Remove um elemento em uma posição válida//" << endl;
+    cout << "Digite a posição: ";
+    cin >> pos;
+    cout << (lista1.remove(pos) != -1 ? ("Valor " + to_string(lista1.remove(pos)) + " removido da posição " + to_string(pos) + " com sucesso!") : "Erro! Digite uma posição válida!") << endl;
+
+   // g)
+    cout << "\n//Imprime todos os elementos da lista//" << endl;
+    lista1.print(); 
+    
+    return 0;
 }

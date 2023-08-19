@@ -2,6 +2,8 @@
 #include <chrono>
 #include <thread>
 
+#define QTD_ELM 10
+
 using namespace std;
 
 
@@ -43,7 +45,7 @@ public:
     }
     int get_tam(){ return tam; }
 
-    int elemento(int pos){
+    int get_elemento(int pos){
         No* aux = cabeca;
         int cont = 1;
         if(vazia()) return -1; // Consulta falhou
@@ -56,7 +58,7 @@ public:
         }
         return aux->get_conteudo();
     }
-    int posicao(int dado){
+    int get_posicao(int dado){
         int cont = 1;
         No* aux;
 
@@ -122,15 +124,15 @@ public:
     bool insere(int pos, int dado){
         if((vazia()) && (pos != 1)) return false; // Lista vazia e posição inválida
         if(pos == 1){
-            cout << "InsereInicio " << dado << endl;
+            // cout << "InsereInicio " << dado << endl;
             return insereInicio(dado);
         }
         else if(pos == tam+1){
-            cout << "insereFim " << dado << endl;
+            // cout << "insereFim " << dado << endl;
             return insereFim(dado);
         }
         else{
-            cout << "Inserindo o valor " << dado << " na posição " << pos << endl;
+            // cout << "Inserindo o valor " << dado << " na posição " << pos << endl;
             return insereMeio(pos, dado);
         }
     }
@@ -146,16 +148,6 @@ public:
 
         aux->set_conteudo(dado);
         return true;
-    }
-    int remove(int pos){
-        if(vazia()) return -1; // Lista vazia
-
-        if(pos == 1){
-            return removeInicio();
-        }
-        else{
-            return removeNaLista(pos);
-        }
     }
     int removeInicio(){
         No* aux = cabeca;
@@ -173,7 +165,7 @@ public:
         int dado = -1; int cont = 1;
 
         atual = cabeca;
-        while((cont < pos+1) && (atual != NULL)){
+        while((cont < pos/*+1 ??*/) && (atual != NULL)){
             antecessor = atual;
             atual = atual->get_prox();
             cont++;
@@ -188,6 +180,16 @@ public:
         atual = NULL;
         return dado;
     }
+    int remove(int pos){
+        if(vazia()) return -1; // Lista vazia
+
+        if(pos == 1){
+            return removeInicio();
+        }
+        else{
+            return removeNaLista(pos);
+        }
+    }
     void print(){
         int cont = 1;
         No* aux = cabeca;
@@ -200,27 +202,41 @@ public:
 
 int main(void){
     // a)
+    cout << "Inicializando Lista Encadeada... " << endl;
     ListaEnc lista;
     int dado;
 
     // b)
     cout << (lista.vazia() ? "Está vazia" : "Não está vazia") << endl;
 
-    for(int i = 1; i < 11 ; i++){
-        lista.insere(i, i);
+    cout << endl;
+    cout << "Preenchendo a lista com " + to_string(QTD_ELM) + " elementos..." << endl;
+
+    int random_list_element;
+    for(int i = 1; i < QTD_ELM+1 ; i++){
+        random_list_element = rand() % 100 + 1;
+        lista.insere(i, random_list_element);
     }
+
     // c)
     cout << "Tamanho da lista atual: " << (lista.get_tam()) << endl;
 
     // d)
-    cout << lista.elemento(4) << endl;
+    cout << endl;
+    lista.print();
+    cout << endl;
+
     int num, pos;
     cout << "\n//Modifica valor em uma posição//" << endl;
     cout << "Digite a posição: ";
     cin >> pos;
     cout << "Digite um inteiro: ";
     cin >> num;
-    cout << (lista.modifica(pos, num) ? ("posição " + to_string(pos) + " modificado para " + to_string(num) + " com sucesso!") : "Erro!") << endl;
+    cout << (lista.modifica(pos, num) ? ("Valor na posição " + to_string(pos) + " modificado para " + to_string(num) + " com sucesso!") : "Erro!") << endl;
+
+    cout << endl;
+    lista.print();
+    cout << endl;
 
     // e)
     cout << "\n//Insere um elemento//" << endl;
@@ -228,13 +244,18 @@ int main(void){
     cin >> pos;
     cout << "Digite um inteiro: ";
     cin >> num;
-    cout << (lista.insere(pos, num) ? ("valor " + to_string(num) + " na posição " + to_string(pos) + " inserido com sucesso!") : "Erro!") << endl;
+    cout << (lista.insere(pos, num) ? ("Valor " + to_string(num) + " na posição " + to_string(pos) + " inserido com sucesso!") : "Erro!") << endl;
+
+    cout << endl;
+    lista.print();
+    cout << endl;
 
     // f)
     cout << "\n//Remove um elemento//" << endl;
     cout << "Digite a posição: ";
     cin >> pos;
-    cout << (lista.remove(pos) != -1 ? ("valor na posição " + to_string(pos) + " removido com sucesso!") : "Erro!") << endl;
+    cout << (lista.remove(pos) != -1 ? ("Valor na posição " + to_string(pos) + " removido com sucesso!") : "Erro!") << endl;
+    
 
     // g)
     cout << "\n//Todos os elementos da lista//" << endl;
