@@ -26,8 +26,6 @@ def load_from(fileName):
         l += 1
     return g
 
-gr = load_from("../instncias_grafo/pcv4.txt")
-gr.print()
-dist, ant = gr.bfs(3)
-print(dist)
-print(ant)
+if __name__ == "__main__":
+    print("Este arquivo não deve ser executado diretamente.")
+    print("Você pode rodar os testes a partir dos arquivos test.py.")
